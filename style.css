@@ -299,12 +299,13 @@ button { color: inherit; font: inherit; }
 }
 
 /* Panorama uses one full-width photograph per row. */
-.project[data-project="Panorama"] .gallery {
-  grid-template-columns: minmax(0, 1fr);
+.project[data-project="Panorama" i] .gallery {
+  grid-template-columns: 1fr;
+  gap: clamp(24px, 3.5vw, 48px);
 }
 
-.project[data-project="Panorama"] .gallery-item,
-.project[data-project="Panorama"] .gallery-item:nth-child(3n) {
+.project[data-project="Panorama" i] .gallery-item,
+.project[data-project="Panorama" i] .gallery-item:nth-child(3n) {
   grid-column: auto;
   width: 100%;
   margin-inline: 0;
