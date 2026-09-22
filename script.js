@@ -29,10 +29,10 @@ function showRoute() {
 
   if (!isAbout) {
     const requestedSlug = route.startsWith('works/') ? route.split('/')[1] : '';
-    const selected = projects.find((project) => project.dataset.project === requestedSlug) || projects[0];
+    const selected = projects.find((project) => project.dataset.project.toLowerCase() === requestedSlug.toLowerCase()) || projects[0];
 
     projects.forEach((project) => project.classList.toggle('is-hidden', project !== selected));
-    projectLinks.forEach((link) => link.classList.toggle('is-active', link.dataset.projectLink === selected?.dataset.project));
+    projectLinks.forEach((link) => link.classList.toggle('is-active', link.dataset.projectLink.toLowerCase() === selected?.dataset.project.toLowerCase()));
     document.title = selected ? `${selected.querySelector('h1').textContent} — Sangwoo Photography` : 'Sangwoo Photography';
   } else {
     document.title = 'About — Sangwoo Photography';
