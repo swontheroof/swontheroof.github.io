@@ -297,3 +297,15 @@ button { color: inherit; font: inherit; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0.01ms !important; }
 }
+
+/* Panorama uses one full-width photograph per row. */
+.project[data-project="Panorama"] .gallery {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.project[data-project="Panorama"] .gallery-item,
+.project[data-project="Panorama"] .gallery-item:nth-child(3n) {
+  grid-column: auto;
+  width: 100%;
+  margin-inline: 0;
+}
