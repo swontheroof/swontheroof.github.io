@@ -151,10 +151,10 @@ function showRoute() {
 
     projects.forEach((project) => project.classList.toggle('is-hidden', project !== selected));
     projectLinks.forEach((link) => link.classList.toggle('is-active', link.dataset.projectLink.toLowerCase() === selected?.dataset.project.toLowerCase()));
-    document.title = selected ? `${selected.querySelector('h1').textContent} â Sangwoo Photography` : 'Sangwoo Photography';
+    document.title = selected ? `${selected.querySelector('h1').textContent} \u2014 Sangwoo Photography` : 'Sangwoo Photography';
     requestAnimationFrame(() => layoutJustifiedGallery(selected));
   } else {
-    document.title = 'About â Sangwoo Photography';
+    document.title = 'About \u2014 Sangwoo Photography';
   }
 
   closeMenu();
