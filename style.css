@@ -120,6 +120,19 @@ button { color: inherit; font: inherit; }
   margin-inline: auto;
 }
 
+.gallery.is-justified {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.gallery.is-justified .gallery-item,
+.gallery.is-justified .gallery-item:nth-child(3n) {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
 .image-button {
   display: block;
   width: 100%;
@@ -136,6 +149,13 @@ button { color: inherit; font: inherit; }
   height: auto;
   background: #e9e7e1;
   transition: opacity 220ms ease;
+}
+
+.gallery.is-justified .image-button { height: 100%; }
+
+.gallery.is-justified .image-button img {
+  height: 100%;
+  object-fit: cover;
 }
 
 .image-button:hover img { opacity: 0.9; }
