@@ -125,6 +125,7 @@ function prepareJustifiedGallery(project) {
   if (!gallery) return;
 
   gallery.querySelectorAll('img').forEach((image) => {
+    image.loading = 'eager';
     if (!image.complete) image.addEventListener('load', () => layoutJustifiedGallery(project), { once: true });
   });
 }
