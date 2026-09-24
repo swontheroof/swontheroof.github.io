@@ -1,3 +1,4 @@
+
 ---
 layout: null
 ---
@@ -40,7 +41,7 @@ layout: null
 
   <main id="main-content" class="site-main">
     <section class="works-view" id="works" aria-label="Works">
-      {% assign sorted_files = site.static_files | sort: 'path' %}
+      {% assign sorted_files = site.static_files | sort: 'path' | reverse %}
       {% for project in site.data.projects %}
         {% assign prefix = '/images/works/' | append: project.slug | append: '/' %}
         <article class="project{% unless forloop.first %} is-hidden{% endunless %}" data-project="{{ project.slug }}">
