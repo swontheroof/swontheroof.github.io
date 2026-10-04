@@ -30,8 +30,7 @@ function applyJustifiedRow(row, galleryWidth, targetHeight, isLastRow) {
   const ratioTotal = row.reduce((total, entry) => total + entry.ratio, 0);
   const availableWidth = galleryWidth - justifiedGap * (row.length - 1);
   const justifiedHeight = availableWidth / ratioTotal;
-  const isPanoramicRow = row.length === 1 && row[0].ratio > panoramicRatioThreshold;
-  const shouldFillRow = isPanoramicRow
+  const shouldFillRow = row.length === 1
     || (row.length > 1 && (!isLastRow || justifiedHeight <= targetHeight * 1.2));
   const rowHeight = shouldFillRow ? justifiedHeight : Math.min(targetHeight, justifiedHeight);
   let usedWidth = 0;
@@ -72,7 +71,8 @@ function layoutJustifiedGallery(project) {
   if (!entries.length || entries.some((entry) => !entry.ratio)) return;
 
   gallery.classList.add('is-justified');
-  const galleryWidth = gallery.clientWidth;
+  // Preserve sub-pixel width so a justified row does not wrap by a fraction of a pixel.
+  const galleryWidth = gallery.getBoundingClientRect().width - 1;
   if (!galleryWidth) return;
   const targetHeight = Math.min(460, Math.max(280, galleryWidth * 0.38));
   const rows = [];
@@ -115,7 +115,22 @@ function layoutJustifiedGallery(project) {
 
   if (row.length) rows.push(row);
   rows.forEach((entriesInRow, index) => {
-    applyJustifiedRow(entriesInRow, galleryWidth, targetHeight, index === rows.length - 1);
+    if (entriesInRow.length !== 1 || entriesInRow[0].ratio > panoramicRatioThreshold || index === 0) return;
+
+    const previousRow = rows[index - 1];
+    if (!previousRow.length || previousRow.some((entry) => entry.ratio > panoramicRatioThreshold)) return;
+
+    const combinedRow = [...previousRow, ...entriesInRow];
+    const combinedRatio = combinedRow.reduce((total, entry) => total + entry.ratio, 0);
+    const combinedHeight = (galleryWidth - justifiedGap * (combinedRow.length - 1)) / combinedRatio;
+    if (combinedHeight >= targetHeight * 0.7) {
+      rows[index - 1] = combinedRow;
+      rows[index] = [];
+    }
+  });
+  const filledRows = rows.filter((entriesInRow) => entriesInRow.length);
+  filledRows.forEach((entriesInRow, index) => {
+    applyJustifiedRow(entriesInRow, galleryWidth, targetHeight, index === filledRows.length - 1);
   });
 }
 
